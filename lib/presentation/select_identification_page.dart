@@ -3,6 +3,7 @@ import 'package:digital_onboarding/presentation/_shared/widgets/lazy_future_buil
 import 'package:digital_onboarding/presentation/_viewmodels/app_data_viewmodel.dart';
 import 'package:digital_onboarding/presentation/select_identification_page_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class SelectIdentificationPage extends StatefulWidget {
@@ -20,7 +21,7 @@ class _SelectIdentificationPageState extends State<SelectIdentificationPage> {
   @override
   void initState() {
     super.initState();
-    appDataVM = context.watch<AppDataVM>();
+    appDataVM = context.read<AppDataVM>();
     getIdDocumentsFuture = appDataVM.getIdDocuments();
   }
 
@@ -32,6 +33,9 @@ class _SelectIdentificationPageState extends State<SelectIdentificationPage> {
         return Scaffold(
           appBar: AppBar(
             title: Text("Select Identification Type"),
+            leading: BackButton(
+              onPressed: () => context.pop(),
+            ),
           ),
           body: Column(
             children: [
@@ -69,7 +73,7 @@ class _IdentificationGridState extends State<IdentificationGrid> {
   @override
   void initState() {
     super.initState();
-    appDataVM = context.watch<AppDataVM>();
+    appDataVM = context.read<AppDataVM>();
     viewmodel = context.read<SelectIdentificationPageVM>();
     getIdDocumentsFuture = appDataVM.getIdDocuments();
   }
