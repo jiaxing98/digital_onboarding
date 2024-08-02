@@ -47,9 +47,7 @@ final GoRouter router = GoRouter(
               create: (_) => viewModels.get<SelectIdentificationPageVM>(),
             ),
           ],
-          child: CaptureIdGuidelinesPage(
-            result: state.extra as String,
-          ),
+          child: CaptureIdGuidelinesPage(),
         );
       },
     ),

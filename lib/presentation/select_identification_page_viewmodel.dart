@@ -1,6 +1,8 @@
 import 'package:digital_onboarding/domain/entities/id_document.dart';
 import 'package:digital_onboarding/domain/usecases/update_id_type_usecase.dart';
+import 'package:digital_onboarding/utils/failure.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:fpdart/fpdart.dart';
 
 class SelectIdentificationPageVM extends ChangeNotifier {
   final UpdateIdDocumentUseCase _updateIdDocumentUseCase;
@@ -9,7 +11,12 @@ class SelectIdentificationPageVM extends ChangeNotifier {
     required UpdateIdDocumentUseCase updateIdDocumentUseCase,
   }) : _updateIdDocumentUseCase = updateIdDocumentUseCase;
 
-  Future<void> saveIdDocument(IdDocument document) async {
-    await _updateIdDocumentUseCase(document);
+  TaskEither<Failure, void> saveIdDocument(IdDocument document) {
+    return TaskEither.tryCatch(
+      () => _updateIdDocumentUseCase.call(document),
+      (ex, _) => switch (ex) {
+        _ => Failure.unknown(),
+      },
+    );
   }
 }

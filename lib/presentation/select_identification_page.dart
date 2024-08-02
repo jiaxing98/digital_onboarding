@@ -3,9 +3,13 @@ import 'package:digital_onboarding/domain/entities/id_document.dart';
 import 'package:digital_onboarding/presentation/_shared/widgets/dob_app_bar.dart';
 import 'package:digital_onboarding/presentation/_viewmodels/app_data_viewmodel.dart';
 import 'package:digital_onboarding/presentation/select_identification_page_viewmodel.dart';
+import 'package:digital_onboarding/routes.dart';
 import 'package:digital_onboarding/utils/ut_empty_view.dart';
+import 'package:digital_onboarding/utils/ut_error_dialog.dart';
 import 'package:digital_onboarding/utils/ut_future_builder.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 
 class SelectIdentificationPage extends StatefulWidget {
@@ -115,24 +119,19 @@ class _IdentificationGridState extends State<IdentificationGrid> {
   }
 
   Future<void> _saveIdDocument(IdDocument document) async {
-    showDialog(
-      context: context,
-      builder: (ctx) {
-        return UTFutureBuilder(
-          future: viewmodel.saveIdDocument(document),
-          onCompleted: (_) {
-            return AlertDialog(
-              title: Text("Success"),
-            );
-          },
-          onError: (ex) {
-            return AlertDialog(
-              title: Text("Failed"),
-            );
-          },
-        );
-      },
-    );
+    final task = viewmodel.saveIdDocument(document);
+    context.loaderOverlay.show();
+    final result = await task.run();
+    result.fold((failure) {
+      context.loaderOverlay.hide();
+      showErrorDialog(
+        context: context,
+        errorDialog: UTErrorDialog(failure: failure),
+      );
+    }, (_) {
+      context.loaderOverlay.hide();
+      context.pushNamed(Pages.guidelines);
+    });
   }
 }
 
