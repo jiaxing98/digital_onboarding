@@ -2,8 +2,8 @@ import 'package:digital_onboarding/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class LandingScreen extends StatelessWidget {
-  const LandingScreen({super.key});
+class LandingPage extends StatelessWidget {
+  const LandingPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class LandingScreen extends StatelessWidget {
           children: [
             OutlinedButton(
               onPressed: () {
-                context.pushNamed(Screen.register);
+                context.pushNamed(Pages.selectId);
               },
               child: Text("Get Started"),
             ),

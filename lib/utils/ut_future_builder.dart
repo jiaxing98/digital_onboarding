@@ -1,9 +1,10 @@
+import 'package:digital_onboarding/utils/ut_error_view.dart';
 import 'package:flutter/material.dart';
 
 class UTFutureBuilder<T> extends StatelessWidget {
   final Future<T>? future;
   final T? initialData;
-  final Widget Function(T?) onCompleted;
+  final Widget Function(T) onCompleted;
   final Widget Function()? onLoading;
   final Widget Function(Object?)? onError;
 
@@ -27,12 +28,10 @@ class UTFutureBuilder<T> extends StatelessWidget {
         }
 
         if (snapshot.hasError) {
-          return Center(
-            child: onError?.call(snapshot.error) ?? const Text("Something went wrong"),
-          );
+          return onError?.call(snapshot.error) ?? UTErrorView(message: snapshot.error.toString());
         }
 
-        return onCompleted(snapshot.data);
+        return onCompleted(snapshot.data as T);
       },
     );
   }

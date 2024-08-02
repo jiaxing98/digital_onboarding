@@ -47,9 +47,9 @@ class RegisterRepositoryImpl extends RegisterRepository {
   }
 
   @override
-  Future<bool> updateIdDocumentTransaction(IdDocument document) {
-    // TODO: implement updateIdDocumentTransaction
-    throw UnimplementedError();
+  Future<bool> updateIdDocumentTransaction(IdDocument document) async {
+    await Future.delayed(Duration(seconds: 1));
+    return true;
   }
 
   @override

@@ -3,6 +3,7 @@ import 'package:digital_onboarding/domain/entities/id_document.dart';
 import 'package:digital_onboarding/presentation/_shared/widgets/dob_app_bar.dart';
 import 'package:digital_onboarding/presentation/_viewmodels/app_data_viewmodel.dart';
 import 'package:digital_onboarding/presentation/select_identification_page_viewmodel.dart';
+import 'package:digital_onboarding/utils/ut_empty_view.dart';
 import 'package:digital_onboarding/utils/ut_future_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -87,7 +88,7 @@ class _IdentificationGridState extends State<IdentificationGrid> {
       future: getIdDocumentsFuture,
       onCompleted: (documents) {
         if (documents == null || documents.isEmpty) {
-          return const Center(child: Text("No Data"));
+          return const UTEmptyView();
         }
 
         return GridView.count(
