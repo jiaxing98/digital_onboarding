@@ -23,9 +23,9 @@
 // import 'package:digital_onboarding/features/register/domain/usecases/get_selected_id_type_usecase.dart';
 // import 'package:digital_onboarding/features/register/domain/usecases/get_selection_list_usecase.dart';
 // import 'package:digital_onboarding/features/register/domain/usecases/get_user_form_usecase.dart';
-// import 'package:digital_onboarding/features/register/domain/usecases/new_registration_usecase.dart';
+// import 'package:digital_onboarding/features/register/domain/usecases/start_registration_usecase.dart';
 // import 'package:digital_onboarding/features/register/domain/usecases/perform_military_ekyc_usecase.dart';
-// import 'package:digital_onboarding/features/register/domain/usecases/perform_mykad_ekyc_usecase.dart';
+// import 'package:digital_onboarding/features/register/domain/usecases/perform_ekyc_usecase.dart';
 // import 'package:digital_onboarding/features/register/domain/usecases/perform_mykas_ekyc_usecase.dart';
 // import 'package:digital_onboarding/features/register/domain/usecases/perform_mypr_ekyc_usecase.dart';
 // import 'package:digital_onboarding/features/register/domain/usecases/perform_passport_ekyc_usecase.dart';
@@ -53,7 +53,7 @@
 // import 'package:digital_onboarding/utils/scan_qr_code_helper.dart';
 // import 'package:wise_ai_ekyc/wise_ai_ekyc.dart';
 //
-// part 'data_sources.dart';
+// part 'user_data_source.dart';
 // part 'helpers.dart';
 // part 'repositories.dart';
 // part 'viewmodels.dart';

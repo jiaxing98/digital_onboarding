@@ -1,21 +1,54 @@
 import 'package:digital_onboarding/domain/entities/address_info.dart';
-import 'package:digital_onboarding/domain/entities/agent.dart';
 import 'package:digital_onboarding/domain/entities/id_document.dart';
+import 'package:equatable/equatable.dart';
 
 enum RegistrationType { newRegistration, portIn }
 
-class UserInfo {
+class UserInfo extends Equatable {
   final String transactionId;
   final RegistrationType registrationType;
-  final Agent agent;
-  final IdDocument idDocument;
-  final AddressInfo address;
+  final IdDocument? idDocument;
+  final AddressInfo? address;
 
-  UserInfo({
+  const UserInfo({
     required this.transactionId,
     required this.registrationType,
-    required this.agent,
     required this.idDocument,
     required this.address,
   });
+
+  @override
+  List<Object?> get props => [
+        transactionId,
+        registrationType,
+        idDocument,
+        address,
+      ];
+
+  @override
+  bool? get stringify => true;
+
+  factory UserInfo.initialize({
+    required String transactionId,
+    required RegistrationType registrationType,
+  }) {
+    return UserInfo(
+      transactionId: transactionId,
+      registrationType: registrationType,
+      idDocument: null,
+      address: null,
+    );
+  }
+
+  UserInfo copyWith({
+    IdDocument? idDocument,
+    AddressInfo? address,
+  }) {
+    return UserInfo(
+      transactionId: transactionId,
+      registrationType: registrationType,
+      idDocument: idDocument ?? this.idDocument,
+      address: address ?? this.address,
+    );
+  }
 }

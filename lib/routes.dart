@@ -1,7 +1,9 @@
 import 'package:digital_onboarding/core/dependency_injection/viewmodels.dart';
 import 'package:digital_onboarding/presentation/_viewmodels/app_data_viewmodel.dart';
 import 'package:digital_onboarding/presentation/capture_id_guidelines_page.dart';
+import 'package:digital_onboarding/presentation/capture_id_guidelines_page_viewmodel.dart';
 import 'package:digital_onboarding/presentation/landing_page.dart';
+import 'package:digital_onboarding/presentation/landing_page_viewmodel.dart';
 import 'package:digital_onboarding/presentation/select_identification_page.dart';
 import 'package:digital_onboarding/presentation/select_identification_page_viewmodel.dart';
 import 'package:go_router/go_router.dart';
@@ -14,7 +16,10 @@ final GoRouter router = GoRouter(
       path: Pages.home,
       name: Pages.home,
       builder: (context, state) {
-        return const LandingPage();
+        return Provider(
+          create: (ctx) => viewModels.get<LandingPageVM>(),
+          child: const LandingPage(),
+        );
       },
     ),
     GoRoute(
@@ -26,7 +31,7 @@ final GoRouter router = GoRouter(
             ChangeNotifierProvider.value(
               value: context.read<AppDataVM>(),
             ),
-            ChangeNotifierProvider(
+            Provider(
               create: (_) => viewModels.get<SelectIdentificationPageVM>(),
             ),
           ],
@@ -44,7 +49,7 @@ final GoRouter router = GoRouter(
               value: context.read<AppDataVM>(),
             ),
             ChangeNotifierProvider(
-              create: (_) => viewModels.get<SelectIdentificationPageVM>(),
+              create: (_) => viewModels.get<CaptureIdGuidelinesPageVM>(),
             ),
           ],
           child: CaptureIdGuidelinesPage(),

@@ -26,14 +26,14 @@ class UTErrorDialog extends StatelessWidget {
   }
 }
 
-Future<T?> showErrorDialog<T extends UTErrorDialog>({
+Future<void> showErrorDialog({
   required BuildContext context,
-  required T errorDialog,
+  required Failure failure,
 }) {
   return showDialog(
     context: context,
     builder: (ctx) {
-      return errorDialog;
+      return UTErrorDialog(failure: failure);
     },
   );
 }

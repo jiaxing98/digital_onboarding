@@ -124,10 +124,7 @@ class _IdentificationGridState extends State<IdentificationGrid> {
     final result = await task.run();
     result.fold((failure) {
       context.loaderOverlay.hide();
-      showErrorDialog(
-        context: context,
-        errorDialog: UTErrorDialog(failure: failure),
-      );
+      showErrorDialog(context: context, failure: failure);
     }, (_) {
       context.loaderOverlay.hide();
       context.pushNamed(Pages.guidelines);

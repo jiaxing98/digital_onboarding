@@ -1,37 +1,10 @@
-// part of '_dependency_injection.dart';
-//
-// void _injectDataSources() {
-//   // ! check_port_in
-//   dataSources.registerFactory<MnpStatusDataSource>(
-//     () => MnpStatusDataSourceImpl(
-//       utils.https,
-//       helpers.get<AppConfig>(),
-//     ),
-//   );
-//
-//   // ! register
-//   dataSources.registerFactory<InitializationDataSource>(
-//     () => InitializationDataSourceImpl(
-//       utils.https,
-//       helpers.get<AppConfig>(),
-//       helpers.get<AuthenticateHelper>(),
-//     ),
-//   );
-//   dataSources.registerFactory<PackageTagDataSource>(
-//     () => PackageTagDataSourceImpl(
-//       utils.https,
-//       helpers.get<AppConfig>(),
-//     ),
-//   );
-//   dataSources.registerFactory<RegisterDataSource>(
-//     () => RegisterDataSourceImpl(
-//       utils.https,
-//       helpers.get<AppConfig>(),
-//     ),
-//   );
-//   dataSources.registerFactory<WiseAiEkycDataSource>(
-//     () => WiseAiEkycDataSourceImpl(
-//       helpers.get<WiseAiEkyc>(),
-//     ),
-//   );
-// }
+import 'package:digital_onboarding/data/data_sources/user_data_source.dart';
+import 'package:get_it/get_it.dart';
+
+final GetIt dataSources = GetIt.asNewInstance();
+
+void injectDataSources() {
+  dataSources.registerSingleton<UserDataSource>(
+    UserDataSourceImpl(),
+  );
+}

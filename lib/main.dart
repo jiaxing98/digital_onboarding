@@ -1,3 +1,4 @@
+import 'package:digital_onboarding/core/dependency_injection/data_sources.dart';
 import 'package:digital_onboarding/core/dependency_injection/repositories.dart';
 import 'package:digital_onboarding/core/dependency_injection/viewmodels.dart';
 import 'package:digital_onboarding/presentation/_viewmodels/app_data_viewmodel.dart';
@@ -14,6 +15,7 @@ void main() {
 }
 
 void injectDependencies() {
+  injectDataSources();
   injectRepositories();
   injectViewModels();
 }
