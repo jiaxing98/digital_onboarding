@@ -9,3 +9,8 @@ const double kSpacingMedium = 16.0;
 // Height
 const double kLVExtraHeight = 100.0;
 const double kLogoHeight = 100.0;
+
+final class KPadding {
+  /// value = 16.0
+  static const double page = 16.0;
+}

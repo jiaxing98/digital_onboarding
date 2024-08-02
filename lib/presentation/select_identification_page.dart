@@ -1,9 +1,10 @@
+import 'package:digital_onboarding/core/constants/layout.dart';
 import 'package:digital_onboarding/domain/entities/id_document.dart';
-import 'package:digital_onboarding/presentation/_shared/widgets/lazy_future_builder.dart';
+import 'package:digital_onboarding/presentation/_shared/widgets/dob_app_bar.dart';
 import 'package:digital_onboarding/presentation/_viewmodels/app_data_viewmodel.dart';
 import 'package:digital_onboarding/presentation/select_identification_page_viewmodel.dart';
+import 'package:digital_onboarding/utils/ut_future_builder.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class SelectIdentificationPage extends StatefulWidget {
@@ -27,26 +28,28 @@ class _SelectIdentificationPageState extends State<SelectIdentificationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return LazyFutureBuilder(
+    return UTFutureBuilder(
       future: getIdDocumentsFuture,
       onCompleted: (_) {
         return Scaffold(
-          appBar: AppBar(
-            title: Text("Select Identification Type"),
-            leading: BackButton(
-              onPressed: () => context.pop(),
-            ),
+          appBar: DobAppBar(
+            title: "Select Identification Type",
           ),
-          body: Column(
-            children: [
-              Text(
-                "ID Verification",
-                style: TextStyle(fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
+          body: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(KPadding.page),
+              child: Column(
+                children: [
+                  Text(
+                    "ID Verification",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 16.0),
+                  const IdentificationGrid(),
+                ],
               ),
-              const SizedBox(height: 16.0),
-              const IdentificationGrid(),
-            ],
+            ),
           ),
         );
       },
@@ -80,7 +83,7 @@ class _IdentificationGridState extends State<IdentificationGrid> {
 
   @override
   Widget build(BuildContext context) {
-    return LazyFutureBuilder(
+    return UTFutureBuilder(
       future: getIdDocumentsFuture,
       onCompleted: (documents) {
         if (documents == null || documents.isEmpty) {
@@ -95,18 +98,16 @@ class _IdentificationGridState extends State<IdentificationGrid> {
           mainAxisSpacing: 10,
           crossAxisCount: 2,
           childAspectRatio: 1.5,
-          children: List.generate(
-            documents.length,
-            (index) {
-              final document = documents[index];
-              return IdentificationCard(
-                text: document.name,
-                onTap: () {
-                  _saveIdDocument(document);
-                },
-              );
-            },
-          ),
+          children: documents
+              .map(
+                (e) => IdentificationCard(
+                  text: e.name,
+                  onTap: () {
+                    _saveIdDocument(e);
+                  },
+                ),
+              )
+              .toList(),
         );
       },
     );
@@ -116,7 +117,7 @@ class _IdentificationGridState extends State<IdentificationGrid> {
     showDialog(
       context: context,
       builder: (ctx) {
-        return LazyFutureBuilder(
+        return UTFutureBuilder(
           future: viewmodel.saveIdDocument(document),
           onCompleted: (_) {
             return AlertDialog(

@@ -8,15 +8,18 @@ class LandingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          OutlinedButton(
-            onPressed: () {
-              context.pushNamed(Screen.register);
-            },
-            child: Text("Get Started"),
-          ),
-        ],
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            OutlinedButton(
+              onPressed: () {
+                context.pushNamed(Screen.register);
+              },
+              child: Text("Get Started"),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -2,6 +2,7 @@ import 'package:digital_onboarding/core/dependency_injection/repositories.dart';
 import 'package:digital_onboarding/core/dependency_injection/viewmodels.dart';
 import 'package:digital_onboarding/presentation/_viewmodels/app_data_viewmodel.dart';
 import 'package:digital_onboarding/routes.dart';
+import 'package:digital_onboarding/utils/ut_responsive_breakpoints.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         routerConfig: router,
+        builder: (ctx, child) => UTResponsiveBreakpoints.builder(child: child!),
       ),
     );
   }
