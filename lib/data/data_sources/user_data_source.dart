@@ -1,8 +1,8 @@
-import 'package:digital_onboarding/core/exceptions/app_exception.dart';
 import 'package:digital_onboarding/domain/entities/address_info.dart';
 import 'package:digital_onboarding/domain/entities/ekyc_info.dart';
 import 'package:digital_onboarding/domain/entities/id_document.dart';
 import 'package:digital_onboarding/domain/entities/user_info.dart';
+import 'package:digital_onboarding/exceptions/app_exception.dart';
 import 'package:uuid/uuid.dart';
 
 abstract class UserDataSource {

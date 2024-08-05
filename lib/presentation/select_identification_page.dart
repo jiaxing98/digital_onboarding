@@ -1,10 +1,8 @@
 import 'package:digital_onboarding/core/constants/layout.dart';
 import 'package:digital_onboarding/domain/entities/id_document.dart';
 import 'package:digital_onboarding/presentation/_shared/widgets/dob_app_bar.dart';
-import 'package:digital_onboarding/presentation/_viewmodels/app_data_viewmodel.dart';
 import 'package:digital_onboarding/presentation/select_identification_page_viewmodel.dart';
 import 'package:digital_onboarding/routes.dart';
-import 'package:digital_onboarding/utils/ut_empty_view.dart';
 import 'package:digital_onboarding/utils/ut_error_dialog.dart';
 import 'package:digital_onboarding/utils/ut_future_builder.dart';
 import 'package:flutter/material.dart';
@@ -20,24 +18,23 @@ class SelectIdentificationPage extends StatefulWidget {
 }
 
 class _SelectIdentificationPageState extends State<SelectIdentificationPage> {
-  late AppDataVM appDataVM;
+  late SelectIdentificationPageVM viewmodel;
 
-  Future<void>? getIdDocumentsFuture;
+  Future<List<IdDocument>>? getIdDocumentsFuture;
 
   @override
   void initState() {
     super.initState();
-    appDataVM = context.read<AppDataVM>();
-    getIdDocumentsFuture = appDataVM.getIdDocuments();
+    getIdDocumentsFuture = viewmodel.getIdDocuments();
   }
 
   @override
   Widget build(BuildContext context) {
     return UTFutureBuilder(
       future: getIdDocumentsFuture,
-      onCompleted: (_) {
+      onCompleted: (documents) {
         return Scaffold(
-          appBar: DobAppBar(
+          appBar: const DobAppBar(
             title: "Select Identification Type",
           ),
           body: Center(
@@ -45,13 +42,13 @@ class _SelectIdentificationPageState extends State<SelectIdentificationPage> {
               padding: const EdgeInsets.all(KPadding.page),
               child: Column(
                 children: [
-                  Text(
+                  const Text(
                     "ID Verification",
                     style: TextStyle(fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 16.0),
-                  const IdentificationGrid(),
+                  IdentificationGrid(documents: documents),
                 ],
               ),
             ),
@@ -64,8 +61,11 @@ class _SelectIdentificationPageState extends State<SelectIdentificationPage> {
 
 //region IdentificationGrid
 class IdentificationGrid extends StatefulWidget {
+  final List<IdDocument> documents;
+
   const IdentificationGrid({
     super.key,
+    required this.documents,
   });
 
   @override
@@ -73,53 +73,35 @@ class IdentificationGrid extends StatefulWidget {
 }
 
 class _IdentificationGridState extends State<IdentificationGrid> {
-  late AppDataVM appDataVM;
-  late SelectIdentificationPageVM viewmodel;
-
-  Future<List<IdDocument>?>? getIdDocumentsFuture;
-
-  @override
-  void initState() {
-    super.initState();
-    appDataVM = context.read<AppDataVM>();
-    viewmodel = context.read<SelectIdentificationPageVM>();
-    getIdDocumentsFuture = appDataVM.getIdDocuments();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return UTFutureBuilder(
-      future: getIdDocumentsFuture,
-      onCompleted: (documents) {
-        if (documents == null || documents.isEmpty) {
-          return const UTEmptyView();
-        }
-
-        return GridView.count(
-          primary: false,
-          shrinkWrap: true,
-          padding: const EdgeInsets.all(16.0),
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
-          crossAxisCount: 2,
-          childAspectRatio: 1.5,
-          children: documents
-              .map(
-                (e) => IdentificationCard(
-                  text: e.name,
-                  onTap: () {
-                    _saveIdDocument(e);
-                  },
-                ),
-              )
-              .toList(),
-        );
-      },
+    return GridView.count(
+      primary: false,
+      shrinkWrap: true,
+      padding: const EdgeInsets.all(16.0),
+      crossAxisSpacing: 10,
+      mainAxisSpacing: 10,
+      crossAxisCount: 2,
+      childAspectRatio: 1.5,
+      children: List.generate(
+        widget.documents.length,
+        (index) {
+          final document = widget.documents[index];
+          return IdentificationCard(
+            text: document.name,
+            onTap: () {
+              _saveIdDocument(document);
+            },
+          );
+        },
+      ),
     );
   }
 
   Future<void> _saveIdDocument(IdDocument document) async {
+    final viewmodel = context.read<SelectIdentificationPageVM>();
     final task = viewmodel.saveIdDocument(document);
+
     context.loaderOverlay.show();
     final result = await task.run();
     result.fold((failure) {
@@ -131,6 +113,7 @@ class _IdentificationGridState extends State<IdentificationGrid> {
     });
   }
 }
+
 //endregion
 
 //region IdentificationCard

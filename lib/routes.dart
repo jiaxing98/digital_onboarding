@@ -1,6 +1,5 @@
 import 'package:digital_onboarding/core/dependency_injection/viewmodels.dart';
 import 'package:digital_onboarding/domain/entities/ekyc_info.dart';
-import 'package:digital_onboarding/presentation/_viewmodels/app_data_viewmodel.dart';
 import 'package:digital_onboarding/presentation/capture_id_guidelines_page.dart';
 import 'package:digital_onboarding/presentation/capture_id_guidelines_page_viewmodel.dart';
 import 'package:digital_onboarding/presentation/customer_details_page.dart';
@@ -29,15 +28,8 @@ final GoRouter router = GoRouter(
       path: Pages.selectId,
       name: Pages.selectId,
       builder: (context, state) {
-        return MultiProvider(
-          providers: [
-            ChangeNotifierProvider.value(
-              value: context.read<AppDataVM>(),
-            ),
-            Provider(
-              create: (_) => viewModels.get<SelectIdentificationPageVM>(),
-            ),
-          ],
+        return Provider(
+          create: (_) => viewModels.get<SelectIdentificationPageVM>(),
           child: const SelectIdentificationPage(),
         );
       },
@@ -46,15 +38,8 @@ final GoRouter router = GoRouter(
       path: Pages.guidelines,
       name: Pages.guidelines,
       builder: (context, state) {
-        return MultiProvider(
-          providers: [
-            ChangeNotifierProvider.value(
-              value: context.read<AppDataVM>(),
-            ),
-            ChangeNotifierProvider(
-              create: (_) => viewModels.get<CaptureIdGuidelinesPageVM>(),
-            ),
-          ],
+        return Provider(
+          create: (_) => viewModels.get<CaptureIdGuidelinesPageVM>(),
           child: const CaptureIdGuidelinesPage(),
         );
       },
@@ -63,15 +48,8 @@ final GoRouter router = GoRouter(
       path: Pages.form,
       name: Pages.form,
       builder: (context, state) {
-        return MultiProvider(
-          providers: [
-            ChangeNotifierProvider.value(
-              value: context.read<AppDataVM>(),
-            ),
-            ChangeNotifierProvider(
-              create: (_) => viewModels.get<CustomerDetailsPageVM>(),
-            ),
-          ],
+        return ChangeNotifierProvider(
+          create: (_) => viewModels.get<CustomerDetailsPageVM>(),
           child: CustomerDetailsPage(
             ekycInfo: state.extra as EkycInfo,
           ),

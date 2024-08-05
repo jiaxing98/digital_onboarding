@@ -6,13 +6,13 @@ abstract class RegisterDataSource {
 class RegisterDataSourceImpl extends RegisterDataSource {
   @override
   Future<void> submitNewActivation() async {
-    Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     return;
   }
 
   @override
   Future<void> submitPortInActivation() async {
-    Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     return;
   }
 }

@@ -1,8 +1,8 @@
-import 'package:digital_onboarding/core/exceptions/app_exception.dart';
 import 'package:digital_onboarding/domain/entities/address_info.dart';
 import 'package:digital_onboarding/domain/entities/state.dart';
 import 'package:digital_onboarding/domain/usecases/get_country_states_usecase.dart';
 import 'package:digital_onboarding/domain/usecases/submit_new_activation_usecase.dart';
+import 'package:digital_onboarding/exceptions/app_exception.dart';
 import 'package:digital_onboarding/utils/failure.dart';
 import 'package:flutter/material.dart';
 import 'package:fpdart/fpdart.dart';

@@ -1,13 +1,11 @@
 import 'package:digital_onboarding/core/dependency_injection/data_sources.dart';
 import 'package:digital_onboarding/core/dependency_injection/repositories.dart';
 import 'package:digital_onboarding/core/dependency_injection/viewmodels.dart';
-import 'package:digital_onboarding/presentation/_viewmodels/app_data_viewmodel.dart';
 import 'package:digital_onboarding/routes.dart';
 import 'package:digital_onboarding/utils/ut_responsive_breakpoints.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:provider/provider.dart';
 
 void main() {
   injectDependencies();
@@ -35,21 +33,14 @@ class MyApp extends StatelessWidget {
           child: SpinKitCubeGrid(color: Colors.red, size: 50.0),
         );
       },
-      child: MultiProvider(
-        providers: [
-          ChangeNotifierProvider(
-            create: (_) => viewModels.get<AppDataVM>(),
-          ),
-        ],
-        child: MaterialApp.router(
-          title: 'Digital OnBoarding',
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-            useMaterial3: true,
-          ),
-          routerConfig: router,
-          builder: (ctx, child) => UTResponsiveBreakpoints.builder(child: child!),
+      child: MaterialApp.router(
+        title: 'Digital OnBoarding',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
         ),
+        routerConfig: router,
+        builder: (ctx, child) => UTResponsiveBreakpoints.builder(child: child!),
       ),
     );
   }

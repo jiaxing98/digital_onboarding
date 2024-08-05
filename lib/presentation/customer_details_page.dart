@@ -1,4 +1,5 @@
 import 'package:digital_onboarding/core/constants/layout.dart';
+import 'package:digital_onboarding/core/extensions/datetime.dart';
 import 'package:digital_onboarding/domain/entities/address_info.dart';
 import 'package:digital_onboarding/domain/entities/ekyc_info.dart';
 import 'package:digital_onboarding/domain/entities/state.dart';
@@ -13,7 +14,6 @@ import 'package:digital_onboarding/utils/ut_error_dialog.dart';
 import 'package:digital_onboarding/utils/ut_future_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 
@@ -61,7 +61,7 @@ class _CustomerDetailsPageState extends State<CustomerDetailsPage> {
                     identificationNo: widget.ekycInfo.identificationNo,
                     gender: widget.ekycInfo.gender.name.toUpperCase(),
                     dob: widget.ekycInfo.birthDate != null
-                        ? DateFormat('yyyy-MM-dd').format(widget.ekycInfo.birthDate!)
+                        ? widget.ekycInfo.birthDate!.format('yyyy-MM-dd')
                         : "",
                   ),
                   const SizedBox(height: 16.0),
