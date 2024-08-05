@@ -5,6 +5,7 @@ import 'package:digital_onboarding/domain/entities/state.dart';
 abstract class AppDataRepository {
   Future<List<IdDocument>> getIdDocuments();
   Future<Map<String, CountryState>> getStateMap();
+  Future<List<CountryState>> getCountryStates();
   Future<Map<String, String>> getCountryMap();
   Future<Map<String, ServiceProvider>> getServiceProviderMap();
 }

@@ -1,8 +1,10 @@
 import 'package:digital_onboarding/core/constants/layout.dart';
 import 'package:digital_onboarding/presentation/_shared/widgets/dob_app_bar.dart';
 import 'package:digital_onboarding/presentation/capture_id_guidelines_page_viewmodel.dart';
+import 'package:digital_onboarding/routes.dart';
 import 'package:digital_onboarding/utils/ut_error_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 
@@ -60,14 +62,15 @@ class _CaptureIdGuidelinesPageState extends State<CaptureIdGuidelinesPage> {
     result.fold((failure) {
       context.loaderOverlay.hide();
       showErrorDialog(context: context, failure: failure);
-    }, (success) {
+      // todo: push to exception page
+    }, (ekycInfo) {
       context.loaderOverlay.hide();
-      print(success);
+      context.pushNamed(Pages.form, extra: ekycInfo);
     });
   }
 }
 
-// ! TextGuidelines
+//region TextGuidelines
 class TextGuidelines extends StatelessWidget {
   const TextGuidelines({super.key});
 
@@ -100,8 +103,9 @@ class TextGuidelines extends StatelessWidget {
     );
   }
 }
+//endregion
 
-// ! TextGuidelineItem
+//region TextGuidelineItem
 class TextGuidelineItem extends StatelessWidget {
   final String text;
 
@@ -123,8 +127,9 @@ class TextGuidelineItem extends StatelessWidget {
     );
   }
 }
+//endregion
 
-// ! SnapPhotoButton
+//region SnapPhotoButton
 class SnapPhotoButton extends StatelessWidget {
   final void Function() onPressed;
 
@@ -146,3 +151,4 @@ class SnapPhotoButton extends StatelessWidget {
     );
   }
 }
+//endregion

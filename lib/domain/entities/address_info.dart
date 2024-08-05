@@ -5,7 +5,7 @@ class AddressInfo {
   final String street2;
   final String postcode;
   final String city;
-  final CountryState state;
+  final CountryState? state;
 
   AddressInfo({
     required this.street1,

@@ -1,24 +1,26 @@
+import 'package:digital_onboarding/core/exceptions/app_exception.dart';
+import 'package:digital_onboarding/domain/entities/address_info.dart';
+import 'package:digital_onboarding/domain/entities/ekyc_info.dart';
 import 'package:digital_onboarding/domain/entities/id_document.dart';
-import 'package:digital_onboarding/domain/entities/user_form.dart';
 import 'package:digital_onboarding/domain/entities/user_info.dart';
 import 'package:uuid/uuid.dart';
 
 abstract class UserDataSource {
-  Future<IdDocument> geIdDocument();
+  Future<IdDocument> getIdDocument();
   Future<void> saveIdDocument(IdDocument document);
   Future<void> saveRegistrationType(RegistrationType registrationType);
   Future<RegistrationType> getRegistrationType();
-  // Future<void> saveEkycResult(EkycResult result);
-  Future<UserForm> getUserForm();
+  Future<void> saveEkycInfo(EkycInfo ekycInfo);
+  Future<void> updateAddressInfo(AddressInfo addressInfo);
 }
 
 class UserDataSourceImpl extends UserDataSource {
   UserInfo? userInfo;
 
   @override
-  Future<IdDocument> geIdDocument() {
-    // TODO: implement geIdDocument
-    throw UnimplementedError();
+  Future<IdDocument> getIdDocument() async {
+    if (userInfo == null || userInfo!.idDocument == null) throw const InvalidAppStateException();
+    return userInfo!.idDocument!;
   }
 
   @override
@@ -28,15 +30,17 @@ class UserDataSourceImpl extends UserDataSource {
   }
 
   @override
-  Future<UserForm> getUserForm() {
-    // TODO: implement getUserForm
-    throw UnimplementedError();
+  Future<void> saveEkycInfo(EkycInfo ekycInfo) async {
+    await Future.delayed(const Duration(seconds: 1));
+    if (userInfo == null) throw const InvalidAppStateException();
+    userInfo = userInfo!.copyWith(ekycInfo: ekycInfo);
   }
 
   @override
-  Future<void> saveIdDocument(IdDocument document) {
-    // TODO: implement saveIdDocument
-    throw UnimplementedError();
+  Future<void> saveIdDocument(IdDocument document) async {
+    await Future.delayed(const Duration(seconds: 1));
+    if (userInfo == null) throw const InvalidAppStateException();
+    userInfo = userInfo!.copyWith(idDocument: document);
   }
 
   @override
@@ -45,6 +49,15 @@ class UserDataSourceImpl extends UserDataSource {
       transactionId: const Uuid().v1(),
       registrationType: registrationType,
     );
-    print(userInfo);
+  }
+
+  @override
+  Future<void> updateAddressInfo(AddressInfo addressInfo) async {
+    await Future.delayed(const Duration(seconds: 1));
+    if (userInfo == null) throw const InvalidAppStateException();
+    if (userInfo!.ekycInfo == null) throw const MissingEkycInfoException();
+
+    final newInfo = userInfo!.ekycInfo!.copyWith(addressInfo);
+    userInfo = userInfo!.copyWith(ekycInfo: newInfo);
   }
 }

@@ -1,18 +1,18 @@
 import 'package:digital_onboarding/domain/entities/id_document.dart';
-import 'package:digital_onboarding/domain/usecases/update_id_type_usecase.dart';
+import 'package:digital_onboarding/domain/usecases/select_id_document_usecase.dart';
 import 'package:digital_onboarding/utils/failure.dart';
 import 'package:fpdart/fpdart.dart';
 
 class SelectIdentificationPageVM {
-  final UpdateIdDocumentUseCase _updateIdDocumentUseCase;
+  final SelectIdDocumentUseCase _selectIdDocumentUseCase;
 
   SelectIdentificationPageVM({
-    required UpdateIdDocumentUseCase updateIdDocumentUseCase,
-  }) : _updateIdDocumentUseCase = updateIdDocumentUseCase;
+    required SelectIdDocumentUseCase selectIdDocumentUseCase,
+  }) : _selectIdDocumentUseCase = selectIdDocumentUseCase;
 
   TaskEither<Failure, void> saveIdDocument(IdDocument document) {
     return TaskEither.tryCatch(
-      () => _updateIdDocumentUseCase.call(document),
+      () => _selectIdDocumentUseCase.call(document),
       (ex, _) => switch (ex) {
         _ => Failure.unknown(),
       },

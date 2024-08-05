@@ -62,15 +62,22 @@ dependencies:
   # https://pub.dev/packages/fpdart
   fpdart: ^1.1.0
 
+  # A Dart package that helps to implement value based equality
+  # without needing to explicitly override == and hashCode.
   # https://pub.dev/packages/equatable
-  # A Dart package that helps to implement value based equality without needing to explicitly override == and hashCode.
   equatable: ^2.0.5
 
-  # https://pub.dev/packages/uuid
   # Simple, fast generation of RFC4122 and RFC9562 UUIDs.
+  # https://pub.dev/packages/uuid
   uuid: ^4.4.2
 
-  # A simple package to simplify screen management. When loading any async task, this package prevent the user from interacting with the screen until the async task finishes.
+  # Provides internationalization and localization facilities, including message translation,
+  # plurals and genders, date/number formatting and parsing, and bidirectional text.
+  # https://pub.dev/packages/intl
+  intl: ^0.19.0
+
+  # A simple package to simplify screen management.
+  # When loading any async task, this package prevent the user from interacting with the screen until the async task finishes.
   # https://pub.dev/packages/loader_overlay
   loader_overlay: ^4.0.1
 

@@ -1,3 +1,4 @@
+import 'package:digital_onboarding/domain/entities/ekyc_info.dart';
 import 'package:digital_onboarding/domain/usecases/perform_ekyc_usecase.dart';
 import 'package:digital_onboarding/utils/failure.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,7 @@ class CaptureIdGuidelinesPageVM extends ChangeNotifier {
     required PerformEkycUseCase performEkycUseCase,
   }) : _performEkycUseCase = performEkycUseCase;
 
-  TaskEither<Failure, bool> performEkyc() {
+  TaskEither<Failure, EkycInfo> performEkyc() {
     return TaskEither.tryCatch(
       () => _performEkycUseCase.call(),
       (ex, __) => switch (ex) {

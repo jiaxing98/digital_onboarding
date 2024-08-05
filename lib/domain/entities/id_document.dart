@@ -1,4 +1,4 @@
-enum DocumentType { myKad, passport, myTentera, myPR, myKAS }
+enum DocumentType { myKad, passport, myTentera }
 
 class IdDocument {
   final String code;

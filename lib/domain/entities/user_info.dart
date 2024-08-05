@@ -1,4 +1,4 @@
-import 'package:digital_onboarding/domain/entities/address_info.dart';
+import 'package:digital_onboarding/domain/entities/ekyc_info.dart';
 import 'package:digital_onboarding/domain/entities/id_document.dart';
 import 'package:equatable/equatable.dart';
 
@@ -8,13 +8,13 @@ class UserInfo extends Equatable {
   final String transactionId;
   final RegistrationType registrationType;
   final IdDocument? idDocument;
-  final AddressInfo? address;
+  final EkycInfo? ekycInfo;
 
   const UserInfo({
     required this.transactionId,
     required this.registrationType,
     required this.idDocument,
-    required this.address,
+    required this.ekycInfo,
   });
 
   @override
@@ -22,7 +22,7 @@ class UserInfo extends Equatable {
         transactionId,
         registrationType,
         idDocument,
-        address,
+        ekycInfo,
       ];
 
   @override
@@ -36,19 +36,19 @@ class UserInfo extends Equatable {
       transactionId: transactionId,
       registrationType: registrationType,
       idDocument: null,
-      address: null,
+      ekycInfo: null,
     );
   }
 
   UserInfo copyWith({
     IdDocument? idDocument,
-    AddressInfo? address,
+    EkycInfo? ekycInfo,
   }) {
     return UserInfo(
       transactionId: transactionId,
       registrationType: registrationType,
       idDocument: idDocument ?? this.idDocument,
-      address: address ?? this.address,
+      ekycInfo: ekycInfo ?? this.ekycInfo,
     );
   }
 }

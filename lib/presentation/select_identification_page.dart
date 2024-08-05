@@ -62,7 +62,7 @@ class _SelectIdentificationPageState extends State<SelectIdentificationPage> {
   }
 }
 
-// ! IdentificationGrid
+//region IdentificationGrid
 class IdentificationGrid extends StatefulWidget {
   const IdentificationGrid({
     super.key,
@@ -131,8 +131,9 @@ class _IdentificationGridState extends State<IdentificationGrid> {
     });
   }
 }
+//endregion
 
-// ! IdentificationCard
+//region IdentificationCard
 class IdentificationCard extends StatefulWidget {
   final String text;
   final void Function() onTap;
@@ -196,3 +197,4 @@ class _IdentificationCardState extends State<IdentificationCard> {
     );
   }
 }
+//endregion

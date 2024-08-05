@@ -36,7 +36,7 @@
 // import 'package:digital_onboarding/features/register/domain/usecases/submit_port_in_activation_usecase.dart';
 // import 'package:digital_onboarding/features/register/domain/usecases/update_confirm_mobile_usecase.dart';
 // import 'package:digital_onboarding/features/register/domain/usecases/update_ekyc_result_usecase.dart';
-// import 'package:digital_onboarding/features/register/domain/usecases/update_id_type_usecase.dart';
+// import 'package:digital_onboarding/features/register/domain/usecases/select_id_document_usecase.dart';
 // import 'package:digital_onboarding/features/register/domain/usecases/verify_package_tag_usecase.dart';
 // import 'package:digital_onboarding/features/register/presentation/capture_id_guidelines/capture_id_guidelines_page_viewmodel.dart';
 // import 'package:digital_onboarding/features/register/presentation/confirm_mobile_number/confirm_mobile_number_page_viewmodel.dart';

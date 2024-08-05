@@ -1,7 +1,10 @@
 import 'package:digital_onboarding/core/dependency_injection/viewmodels.dart';
+import 'package:digital_onboarding/domain/entities/ekyc_info.dart';
 import 'package:digital_onboarding/presentation/_viewmodels/app_data_viewmodel.dart';
 import 'package:digital_onboarding/presentation/capture_id_guidelines_page.dart';
 import 'package:digital_onboarding/presentation/capture_id_guidelines_page_viewmodel.dart';
+import 'package:digital_onboarding/presentation/customer_details_page.dart';
+import 'package:digital_onboarding/presentation/customer_details_page_viewmodel.dart';
 import 'package:digital_onboarding/presentation/landing_page.dart';
 import 'package:digital_onboarding/presentation/landing_page_viewmodel.dart';
 import 'package:digital_onboarding/presentation/select_identification_page.dart';
@@ -52,7 +55,26 @@ final GoRouter router = GoRouter(
               create: (_) => viewModels.get<CaptureIdGuidelinesPageVM>(),
             ),
           ],
-          child: CaptureIdGuidelinesPage(),
+          child: const CaptureIdGuidelinesPage(),
+        );
+      },
+    ),
+    GoRoute(
+      path: Pages.form,
+      name: Pages.form,
+      builder: (context, state) {
+        return MultiProvider(
+          providers: [
+            ChangeNotifierProvider.value(
+              value: context.read<AppDataVM>(),
+            ),
+            ChangeNotifierProvider(
+              create: (_) => viewModels.get<CustomerDetailsPageVM>(),
+            ),
+          ],
+          child: CustomerDetailsPage(
+            ekycInfo: state.extra as EkycInfo,
+          ),
         );
       },
     ),
@@ -63,4 +85,5 @@ sealed class Pages {
   static const home = '/';
   static const selectId = '/selectId';
   static const guidelines = '/guidelines';
+  static const form = '/form';
 }

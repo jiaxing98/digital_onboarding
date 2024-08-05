@@ -1,7 +1,6 @@
-// import 'package:digital_onboarding/features/register/domain/repositories/dob_repository.dart';
 //
 // class ConfirmDetailUseCase {
-//   final DobRepository _repository;
+//   final Regis _repository;
 //
 //   ConfirmDetailUseCase(this._repository);
 //

@@ -1,3 +1,17 @@
-abstract class AppException implements Exception {}
+abstract class AppException implements Exception {
+  final String? message;
 
-class EkycResultException implements AppException {}
+  const AppException(this.message);
+}
+
+class InvalidAppStateException extends AppException {
+  const InvalidAppStateException([super.message]);
+}
+
+class MissingFieldsException extends AppException {
+  const MissingFieldsException([super.message]);
+}
+
+class MissingEkycInfoException extends AppException {
+  const MissingEkycInfoException([super.message]);
+}
