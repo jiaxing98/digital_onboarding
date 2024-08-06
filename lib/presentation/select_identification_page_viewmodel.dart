@@ -1,7 +1,7 @@
 import 'package:digital_onboarding/domain/entities/id_document.dart';
 import 'package:digital_onboarding/domain/usecases/get_id_documents_usecase.dart';
 import 'package:digital_onboarding/domain/usecases/select_id_document_usecase.dart';
-import 'package:digital_onboarding/utils/failure.dart';
+import 'package:digital_onboarding/core/exceptions/failure.dart';
 import 'package:fpdart/fpdart.dart';
 
 class SelectIdentificationPageVM {

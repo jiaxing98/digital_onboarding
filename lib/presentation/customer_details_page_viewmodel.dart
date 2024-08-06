@@ -1,20 +1,26 @@
 import 'package:digital_onboarding/domain/entities/address_info.dart';
 import 'package:digital_onboarding/domain/entities/state.dart';
+import 'package:digital_onboarding/domain/entities/user_info.dart';
 import 'package:digital_onboarding/domain/usecases/get_country_states_usecase.dart';
+import 'package:digital_onboarding/domain/usecases/get_registration_type_usecase.dart';
 import 'package:digital_onboarding/domain/usecases/submit_new_activation_usecase.dart';
-import 'package:digital_onboarding/exceptions/app_exception.dart';
-import 'package:digital_onboarding/utils/failure.dart';
+import 'package:digital_onboarding/core/exceptions/activation_exception.dart';
+import 'package:digital_onboarding/core/exceptions/app_exception.dart';
+import 'package:digital_onboarding/core/exceptions/failure.dart';
 import 'package:flutter/material.dart';
 import 'package:fpdart/fpdart.dart';
 
 class CustomerDetailsPageVM extends ChangeNotifier {
   final GetCountryStatesUseCase _getCountryStatesUseCase;
+  final GetRegistrationTypeUseCase _getRegistrationTypeUseCase;
   final SubmitNewActivationUseCase _submitNewActivationUseCase;
 
   CustomerDetailsPageVM({
     required GetCountryStatesUseCase getCountryStatesUseCase,
+    required GetRegistrationTypeUseCase getRegistrationTypeUseCase,
     required SubmitNewActivationUseCase submitNewActivationUseCase,
   })  : _getCountryStatesUseCase = getCountryStatesUseCase,
+        _getRegistrationTypeUseCase = getRegistrationTypeUseCase,
         _submitNewActivationUseCase = submitNewActivationUseCase;
 
   final formKey = GlobalKey<FormState>();
@@ -25,6 +31,8 @@ class CustomerDetailsPageVM extends ChangeNotifier {
 
   List<CountryState> availableCountryStates = [];
   CountryState? selectedCountryState;
+
+  Future<RegistrationType> get registrationType => _getRegistrationTypeUseCase.call();
 
   Future<void> loadAvailableCountryStates() async {
     availableCountryStates = await _getCountryStatesUseCase.call();
@@ -53,6 +61,16 @@ class CustomerDetailsPageVM extends ChangeNotifier {
           MissingFieldsException() => Failure(
               title: 'Missing Info',
               message: 'Please fill in all the fields.',
+            ),
+          OutstandingBillException() => Failure(
+              title: 'Activation Failed',
+              message: ex.message,
+              icon: Icons.error_outline_sharp,
+            ),
+          SimExceedException() => Failure(
+              title: 'Activation Failed',
+              message: ex.message,
+              icon: Icons.error_outline,
             ),
           _ => Failure.unknown(),
         };

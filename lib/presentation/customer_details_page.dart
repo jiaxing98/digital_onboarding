@@ -10,7 +10,6 @@ import 'package:digital_onboarding/presentation/_shared/widgets/form/form_field_
 import 'package:digital_onboarding/presentation/_shared/widgets/form/form_field_row_flex.dart';
 import 'package:digital_onboarding/presentation/customer_details_page_viewmodel.dart';
 import 'package:digital_onboarding/routes.dart';
-import 'package:digital_onboarding/utils/ut_error_dialog.dart';
 import 'package:digital_onboarding/utils/ut_future_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -67,7 +66,7 @@ class _CustomerDetailsPageState extends State<CustomerDetailsPage> {
                   const SizedBox(height: 16.0),
                   AddressSection(address: widget.ekycInfo.addressInfo),
                   const SizedBox(height: 16.0),
-                  ConfirmDetailsButton(formKey: viewmodel.formKey),
+                  ConfirmDetailsButton(onSubmitActivation: _submitActivation),
                   const SizedBox(height: 16.0),
                 ],
               ),
@@ -76,6 +75,29 @@ class _CustomerDetailsPageState extends State<CustomerDetailsPage> {
         );
       },
     );
+  }
+
+  Future<void> _submitActivation() async {
+    if (!viewmodel.formKey.currentState!.validate()) return;
+
+    final task = viewmodel.submitNewActivation();
+    context.loaderOverlay.show();
+    final result = await task.run();
+    final registrationType = await viewmodel.registrationType;
+    result.fold((failure) {
+      context.loaderOverlay.hide();
+      context.pushNamed(
+        Pages.activationFailed,
+        extra: failure,
+      );
+    }, (_) async {
+      context.loaderOverlay.hide();
+      context.pushNamed(
+        Pages.success,
+        queryParameters: {"username": widget.ekycInfo.name},
+        extra: registrationType,
+      );
+    });
   }
 }
 
@@ -325,11 +347,11 @@ class _CountryStateFieldState extends State<CountryStateField> {
 
 //region ConfirmDetailsButton
 class ConfirmDetailsButton extends StatelessWidget {
-  final GlobalKey<FormState> formKey;
+  final void Function() onSubmitActivation;
 
   const ConfirmDetailsButton({
     super.key,
-    required this.formKey,
+    required this.onSubmitActivation,
   });
 
   @override
@@ -340,9 +362,7 @@ class ConfirmDetailsButton extends StatelessWidget {
         SizedBox(
           width: 150.0,
           child: OutlinedButton(
-            onPressed: () {
-              _submitActivation(context);
-            },
+            onPressed: onSubmitActivation,
             child: Text("Submit Activation"),
           ),
         ),
@@ -359,22 +379,6 @@ class ConfirmDetailsButton extends StatelessWidget {
         SizedBox(height: 16.0),
       ],
     );
-  }
-
-  Future<void> _submitActivation(BuildContext context) async {
-    if (!formKey.currentState!.validate()) return;
-
-    final viewmodel = context.read<CustomerDetailsPageVM>();
-    final task = viewmodel.submitNewActivation();
-    context.loaderOverlay.show();
-    final result = await task.run();
-    result.fold((failure) {
-      context.loaderOverlay.hide();
-      showErrorDialog(context: context, failure: failure);
-    }, (_) {
-      context.loaderOverlay.hide();
-      // context.pushNamed(Pages.guidelines);
-    });
   }
 }
 //endregion

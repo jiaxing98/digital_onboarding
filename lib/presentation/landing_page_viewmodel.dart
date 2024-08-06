@@ -1,6 +1,6 @@
 import 'package:digital_onboarding/domain/entities/user_info.dart';
 import 'package:digital_onboarding/domain/usecases/start_registration_usecase.dart';
-import 'package:digital_onboarding/utils/failure.dart';
+import 'package:digital_onboarding/core/exceptions/failure.dart';
 import 'package:fpdart/fpdart.dart';
 
 class LandingPageVM {

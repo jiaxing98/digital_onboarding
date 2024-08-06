@@ -25,6 +25,7 @@ class _SelectIdentificationPageState extends State<SelectIdentificationPage> {
   @override
   void initState() {
     super.initState();
+    viewmodel = context.read<SelectIdentificationPageVM>();
     getIdDocumentsFuture = viewmodel.getIdDocuments();
   }
 

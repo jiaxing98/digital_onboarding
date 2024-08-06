@@ -1,6 +1,6 @@
 import 'package:digital_onboarding/domain/entities/ekyc_info.dart';
 import 'package:digital_onboarding/domain/usecases/perform_ekyc_usecase.dart';
-import 'package:digital_onboarding/utils/failure.dart';
+import 'package:digital_onboarding/core/exceptions/failure.dart';
 import 'package:fpdart/fpdart.dart';
 
 class CaptureIdGuidelinesPageVM {

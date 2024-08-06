@@ -11,4 +11,5 @@ abstract class UserRepository {
   Future<IdDocument> getIdDocument();
   Future<EkycInfo> processedAndSaveEkycInfo(EkycRawInfo rawInfo);
   Future<void> updateAddressInfo(AddressInfo address);
+  Future<UserInfo> getUserInfo();
 }

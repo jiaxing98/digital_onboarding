@@ -80,4 +80,9 @@ class UserRepositoryImpl extends UserRepository {
       state: matches.isNotEmpty ? matches.first : null,
     );
   }
+
+  @override
+  Future<UserInfo> getUserInfo() async {
+    return await _userDS.getUserInfo();
+  }
 }

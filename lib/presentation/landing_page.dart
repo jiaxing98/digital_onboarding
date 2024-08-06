@@ -49,6 +49,16 @@ class _LandingPageState extends State<LandingPage> {
                 child: Center(child: Text("Port-In Registration")),
               ),
             ),
+            const SizedBox(height: 16.0),
+            SizedBox(
+              width: 180,
+              child: OutlinedButton(
+                onPressed: () {
+                  context.pushNamed(Pages.checkStatus);
+                },
+                child: Center(child: Text("Check Port-In Status")),
+              ),
+            ),
           ],
         ),
       ),

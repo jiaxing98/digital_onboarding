@@ -1,4 +1,4 @@
-import 'package:digital_onboarding/utils/failure.dart';
+import 'package:digital_onboarding/core/exceptions/failure.dart';
 import 'package:flutter/material.dart';
 
 class UTErrorDialog extends StatelessWidget {

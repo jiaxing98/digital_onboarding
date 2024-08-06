@@ -1,4 +1,6 @@
+import 'package:digital_onboarding/core/extensions/datetime.dart';
 import 'package:digital_onboarding/data/data_sources/register_data_source.dart';
+import 'package:digital_onboarding/data/requests/new_activation_request.dart';
 import 'package:digital_onboarding/domain/entities/address_info.dart';
 import 'package:digital_onboarding/domain/entities/ekyc_info.dart';
 import 'package:digital_onboarding/domain/entities/id_document.dart';
@@ -32,8 +34,21 @@ class RegisterRepositoryImpl extends RegisterRepository {
 
   @override
   Future<void> submitNewActivation(AddressInfo addressInfo) async {
-    _userRepository.updateAddressInfo(addressInfo);
-    await _registerDS.submitNewActivation();
+    final userInfo = await _userRepository.getUserInfo();
+    final request = NewActivationRequest(
+      transactionId: userInfo.transactionId,
+      registrationType: userInfo.registrationType.name,
+      idDocumentCode: userInfo.idDocument?.code ?? "",
+      identificationNo: userInfo.ekycInfo?.identificationNo ?? "",
+      gender: userInfo.ekycInfo?.gender.name ?? "",
+      birthDate: userInfo.ekycInfo?.birthDate?.format('yyyy-MM-dd') ?? "",
+      street1: addressInfo.street1,
+      street2: addressInfo.street2,
+      postcode: addressInfo.postcode,
+      city: addressInfo.city,
+      stateCode: addressInfo.state?.code ?? "",
+    );
+    await _registerDS.submitNewActivation(request);
   }
 
   @override

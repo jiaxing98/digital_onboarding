@@ -2,7 +2,8 @@ import 'package:digital_onboarding/domain/entities/address_info.dart';
 import 'package:digital_onboarding/domain/entities/ekyc_info.dart';
 import 'package:digital_onboarding/domain/entities/id_document.dart';
 import 'package:digital_onboarding/domain/entities/user_info.dart';
-import 'package:digital_onboarding/exceptions/app_exception.dart';
+import 'package:digital_onboarding/core/exceptions/activation_exception.dart';
+import 'package:digital_onboarding/core/exceptions/app_exception.dart';
 import 'package:uuid/uuid.dart';
 
 abstract class UserDataSource {
@@ -12,6 +13,7 @@ abstract class UserDataSource {
   Future<RegistrationType> getRegistrationType();
   Future<void> saveEkycInfo(EkycInfo ekycInfo);
   Future<void> updateAddressInfo(AddressInfo addressInfo);
+  Future<UserInfo> getUserInfo();
 }
 
 class UserDataSourceImpl extends UserDataSource {
@@ -24,9 +26,27 @@ class UserDataSourceImpl extends UserDataSource {
   }
 
   @override
-  Future<RegistrationType> getRegistrationType() {
-    // TODO: implement getRegistrationType
-    throw UnimplementedError();
+  Future<RegistrationType> getRegistrationType() async {
+    if (userInfo == null || userInfo!.idDocument == null) throw const InvalidAppStateException();
+    return userInfo!.registrationType;
+  }
+
+  @override
+  Future<UserInfo> getUserInfo() async {
+    if (userInfo == null) throw const InvalidAppStateException();
+
+    if (userInfo!.registrationType == RegistrationType.portIn &&
+        userInfo!.idDocument!.type == DocumentType.passport) {
+      throw const OutstandingBillException(
+          "Please pay the outstanding bill before the activation.");
+    }
+
+    if (userInfo!.registrationType == RegistrationType.newRegistration &&
+        userInfo!.idDocument!.type == DocumentType.myTentera) {
+      throw const SimExceedException("SIM activation cannot more than 5.");
+    }
+
+    return userInfo!;
   }
 
   @override
