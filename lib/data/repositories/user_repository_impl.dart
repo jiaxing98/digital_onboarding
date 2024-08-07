@@ -41,6 +41,11 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
+  Future<void> savePackageTagInfo(String packageTag) async {
+    await _userDS.savePackageTagInfo(packageTag);
+  }
+
+  @override
   Future<void> selectIdDocument(IdDocument document) async {
     await _userDS.saveIdDocument(document);
   }

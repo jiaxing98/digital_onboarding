@@ -1,12 +1,12 @@
+import 'package:digital_onboarding/core/exceptions/activation_exception.dart';
+import 'package:digital_onboarding/core/exceptions/app_exception.dart';
+import 'package:digital_onboarding/core/exceptions/failure.dart';
 import 'package:digital_onboarding/domain/entities/address_info.dart';
 import 'package:digital_onboarding/domain/entities/state.dart';
 import 'package:digital_onboarding/domain/entities/user_info.dart';
 import 'package:digital_onboarding/domain/usecases/get_country_states_usecase.dart';
 import 'package:digital_onboarding/domain/usecases/get_registration_type_usecase.dart';
 import 'package:digital_onboarding/domain/usecases/submit_new_activation_usecase.dart';
-import 'package:digital_onboarding/core/exceptions/activation_exception.dart';
-import 'package:digital_onboarding/core/exceptions/app_exception.dart';
-import 'package:digital_onboarding/core/exceptions/failure.dart';
 import 'package:flutter/material.dart';
 import 'package:fpdart/fpdart.dart';
 
@@ -64,12 +64,13 @@ class CustomerDetailsPageVM extends ChangeNotifier {
             ),
           OutstandingBillException() => Failure(
               title: 'Activation Failed',
-              message: ex.message,
+              message:
+                  ex.message ?? "Please pay your outstanding bill before continue registration.",
               icon: Icons.error_outline_sharp,
             ),
           SimExceedException() => Failure(
               title: 'Activation Failed',
-              message: ex.message,
+              message: ex.message ?? "You cannot register more than 5 SIM package.",
               icon: Icons.error_outline,
             ),
           _ => Failure.unknown(),

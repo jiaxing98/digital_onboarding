@@ -56,4 +56,10 @@ class RegisterRepositoryImpl extends RegisterRepository {
     // TODO: implement submitPortInActivation
     throw UnimplementedError();
   }
+
+  @override
+  Future<void> verifySimPackage(String qrCode) async {
+    final packageTag = await _registerDS.verifySimPackage(qrCode);
+    await _userRepository.savePackageTagInfo(packageTag);
+  }
 }

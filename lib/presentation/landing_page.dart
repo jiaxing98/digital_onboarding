@@ -74,7 +74,7 @@ class _LandingPageState extends State<LandingPage> {
       showErrorDialog(context: context, failure: failure);
     }, (_) {
       context.loaderOverlay.hide();
-      context.pushNamed(Pages.selectId);
+      context.pushNamed(Pages.sim);
     });
   }
 }

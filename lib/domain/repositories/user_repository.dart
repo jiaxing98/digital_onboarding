@@ -5,6 +5,7 @@ import 'package:digital_onboarding/domain/entities/id_document.dart';
 import 'package:digital_onboarding/domain/entities/user_info.dart';
 
 abstract class UserRepository {
+  Future<void> savePackageTagInfo(String packageTag);
   Future<void> selectRegistrationType(RegistrationType registrationType);
   Future<RegistrationType> getRegistrationType();
   Future<void> selectIdDocument(IdDocument document);

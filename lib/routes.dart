@@ -1,7 +1,7 @@
 import 'package:digital_onboarding/core/dependency_injection/viewmodels.dart';
+import 'package:digital_onboarding/core/exceptions/failure.dart';
 import 'package:digital_onboarding/domain/entities/ekyc_info.dart';
 import 'package:digital_onboarding/domain/entities/user_info.dart';
-import 'package:digital_onboarding/core/exceptions/failure.dart';
 import 'package:digital_onboarding/presentation/_shared/pages/activation_failed_page.dart';
 import 'package:digital_onboarding/presentation/_shared/pages/not_found_page.dart';
 import 'package:digital_onboarding/presentation/capture_id_guidelines_page.dart';
@@ -13,6 +13,8 @@ import 'package:digital_onboarding/presentation/customer_details_page_viewmodel.
 import 'package:digital_onboarding/presentation/landing_page.dart';
 import 'package:digital_onboarding/presentation/landing_page_viewmodel.dart';
 import 'package:digital_onboarding/presentation/registration_success_page.dart';
+import 'package:digital_onboarding/presentation/scan_sim_package_page.dart';
+import 'package:digital_onboarding/presentation/scan_sim_package_page_viewmodel.dart';
 import 'package:digital_onboarding/presentation/select_identification_page.dart';
 import 'package:digital_onboarding/presentation/select_identification_page_viewmodel.dart';
 import 'package:go_router/go_router.dart';
@@ -31,6 +33,16 @@ final GoRouter router = GoRouter(
         return Provider(
           create: (ctx) => viewModels.get<LandingPageVM>(),
           child: const LandingPage(),
+        );
+      },
+    ),
+    GoRoute(
+      path: Pages.sim,
+      name: Pages.sim,
+      builder: (context, state) {
+        return Provider(
+          create: (ctx) => viewModels.get<ScanSimPackagePageVM>(),
+          child: const ScanSimPackagePage(),
         );
       },
     ),
@@ -99,6 +111,7 @@ final GoRouter router = GoRouter(
 
 sealed class Pages {
   static const home = '/';
+  static const sim = '/sim';
   static const selectId = '/selectId';
   static const guidelines = '/guidelines';
   static const form = '/form';

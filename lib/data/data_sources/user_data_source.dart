@@ -1,13 +1,14 @@
+import 'package:digital_onboarding/core/exceptions/activation_exception.dart';
+import 'package:digital_onboarding/core/exceptions/app_exception.dart';
 import 'package:digital_onboarding/domain/entities/address_info.dart';
 import 'package:digital_onboarding/domain/entities/ekyc_info.dart';
 import 'package:digital_onboarding/domain/entities/id_document.dart';
 import 'package:digital_onboarding/domain/entities/user_info.dart';
-import 'package:digital_onboarding/core/exceptions/activation_exception.dart';
-import 'package:digital_onboarding/core/exceptions/app_exception.dart';
 import 'package:uuid/uuid.dart';
 
 abstract class UserDataSource {
   Future<IdDocument> getIdDocument();
+  Future<void> savePackageTagInfo(String packageTag);
   Future<void> saveIdDocument(IdDocument document);
   Future<void> saveRegistrationType(RegistrationType registrationType);
   Future<RegistrationType> getRegistrationType();
@@ -18,6 +19,7 @@ abstract class UserDataSource {
 
 class UserDataSourceImpl extends UserDataSource {
   UserInfo? userInfo;
+  String? packageTag;
 
   @override
   Future<IdDocument> getIdDocument() async {
@@ -61,6 +63,12 @@ class UserDataSourceImpl extends UserDataSource {
     await Future.delayed(const Duration(seconds: 1));
     if (userInfo == null) throw const InvalidAppStateException();
     userInfo = userInfo!.copyWith(idDocument: document);
+  }
+
+  @override
+  Future<void> savePackageTagInfo(String packageTag) async {
+    await Future.delayed(const Duration(seconds: 1));
+    this.packageTag = packageTag;
   }
 
   @override

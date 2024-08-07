@@ -7,6 +7,7 @@ import 'package:digital_onboarding/domain/usecases/get_country_states_usecase.da
 import 'package:digital_onboarding/domain/usecases/get_id_documents_usecase.dart';
 import 'package:digital_onboarding/domain/usecases/get_registration_type_usecase.dart';
 import 'package:digital_onboarding/domain/usecases/perform_ekyc_usecase.dart';
+import 'package:digital_onboarding/domain/usecases/scan_sim_package_usecase.dart';
 import 'package:digital_onboarding/domain/usecases/select_id_document_usecase.dart';
 import 'package:digital_onboarding/domain/usecases/start_registration_usecase.dart';
 import 'package:digital_onboarding/domain/usecases/submit_new_activation_usecase.dart';
@@ -14,6 +15,7 @@ import 'package:digital_onboarding/presentation/capture_id_guidelines_page_viewm
 import 'package:digital_onboarding/presentation/check_port_in_status_page_viewmodel.dart';
 import 'package:digital_onboarding/presentation/customer_details_page_viewmodel.dart';
 import 'package:digital_onboarding/presentation/landing_page_viewmodel.dart';
+import 'package:digital_onboarding/presentation/scan_sim_package_page_viewmodel.dart';
 import 'package:digital_onboarding/presentation/select_identification_page_viewmodel.dart';
 import 'package:get_it/get_it.dart';
 
@@ -24,6 +26,14 @@ void injectViewModels() {
     () => LandingPageVM(
       startRegistrationUseCase: StartRegistrationUseCase(
         repositories.get<UserRepository>(),
+      ),
+    ),
+  );
+
+  viewModels.registerFactory(
+    () => ScanSimPackagePageVM(
+      scanSimPackageUseCase: ScanSimPackageUseCase(
+        repositories.get<RegisterRepository>(),
       ),
     ),
   );
