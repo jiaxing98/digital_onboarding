@@ -1,4 +1,4 @@
-import 'package:digital_onboarding/domain/entities/state.dart';
+import 'package:digital_onboarding/domain/entities/country_state.dart';
 import 'package:digital_onboarding/domain/repositories/app_data_repository.dart';
 
 class GetCountryStatesUseCase {

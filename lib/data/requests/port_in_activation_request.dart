@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class NewActivationRequest extends Equatable {
+class PortInActivationRequest extends Equatable {
   final String transactionId;
   final String registrationType;
   final String packageTag;
@@ -13,8 +13,10 @@ class NewActivationRequest extends Equatable {
   final String postcode;
   final String city;
   final String stateCode;
+  final String portInMobileNo;
+  final String serviceProviderId;
 
-  const NewActivationRequest({
+  const PortInActivationRequest({
     required this.transactionId,
     required this.registrationType,
     required this.packageTag,
@@ -27,6 +29,8 @@ class NewActivationRequest extends Equatable {
     required this.postcode,
     required this.city,
     required this.stateCode,
+    required this.portInMobileNo,
+    required this.serviceProviderId,
   });
 
   @override
@@ -43,6 +47,8 @@ class NewActivationRequest extends Equatable {
         postcode,
         city,
         stateCode,
+        portInMobileNo,
+        serviceProviderId,
       ];
 
   @override

@@ -1,8 +1,9 @@
 import 'package:digital_onboarding/core/constants/layout.dart';
 import 'package:digital_onboarding/core/extensions/datetime.dart';
 import 'package:digital_onboarding/domain/entities/address_info.dart';
+import 'package:digital_onboarding/domain/entities/country_state.dart';
 import 'package:digital_onboarding/domain/entities/ekyc_info.dart';
-import 'package:digital_onboarding/domain/entities/state.dart';
+import 'package:digital_onboarding/domain/entities/user_info.dart';
 import 'package:digital_onboarding/presentation/_shared/widgets/dob_app_bar.dart';
 import 'package:digital_onboarding/presentation/_shared/widgets/form/form_field_drop_down.dart';
 import 'package:digital_onboarding/presentation/_shared/widgets/form/form_field_input.dart';
@@ -10,6 +11,7 @@ import 'package:digital_onboarding/presentation/_shared/widgets/form/form_field_
 import 'package:digital_onboarding/presentation/_shared/widgets/form/form_field_row_flex.dart';
 import 'package:digital_onboarding/presentation/customer_details_page_viewmodel.dart';
 import 'package:digital_onboarding/routes.dart';
+import 'package:digital_onboarding/utils/ut_error_dialog.dart';
 import 'package:digital_onboarding/utils/ut_future_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -66,7 +68,7 @@ class _CustomerDetailsPageState extends State<CustomerDetailsPage> {
                   const SizedBox(height: 16.0),
                   AddressSection(address: widget.ekycInfo.addressInfo),
                   const SizedBox(height: 16.0),
-                  ConfirmDetailsButton(onSubmitActivation: _submitActivation),
+                  ConfirmDetailsButton(onPressed: _determineAction),
                   const SizedBox(height: 16.0),
                 ],
               ),
@@ -77,13 +79,22 @@ class _CustomerDetailsPageState extends State<CustomerDetailsPage> {
     );
   }
 
-  Future<void> _submitActivation() async {
+  Future<void> _determineAction() async {
+    final registrationType = await viewmodel.registrationType;
+    switch (registrationType) {
+      case RegistrationType.newRegistration:
+        _submitActivation(registrationType);
+      case RegistrationType.portIn:
+        _confirmDetails(registrationType);
+    }
+  }
+
+  Future<void> _submitActivation(RegistrationType registrationType) async {
     if (!viewmodel.formKey.currentState!.validate()) return;
 
     final task = viewmodel.submitNewActivation();
     context.loaderOverlay.show();
     final result = await task.run();
-    final registrationType = await viewmodel.registrationType;
     result.fold((failure) {
       context.loaderOverlay.hide();
       context.pushNamed(
@@ -97,6 +108,21 @@ class _CustomerDetailsPageState extends State<CustomerDetailsPage> {
         queryParameters: {"username": widget.ekycInfo.name},
         extra: registrationType,
       );
+    });
+  }
+
+  Future<void> _confirmDetails(RegistrationType registrationType) async {
+    if (!viewmodel.formKey.currentState!.validate()) return;
+
+    final task = viewmodel.confirmDetails();
+    context.loaderOverlay.show();
+    final result = await task.run();
+    result.fold((failure) {
+      context.loaderOverlay.hide();
+      showErrorDialog(context: context, failure: failure);
+    }, (_) async {
+      context.loaderOverlay.hide();
+      context.pushNamed(Pages.portInForm);
     });
   }
 }
@@ -347,11 +373,11 @@ class _CountryStateFieldState extends State<CountryStateField> {
 
 //region ConfirmDetailsButton
 class ConfirmDetailsButton extends StatelessWidget {
-  final void Function() onSubmitActivation;
+  final void Function() onPressed;
 
   const ConfirmDetailsButton({
     super.key,
-    required this.onSubmitActivation,
+    required this.onPressed,
   });
 
   @override
@@ -362,7 +388,7 @@ class ConfirmDetailsButton extends StatelessWidget {
         SizedBox(
           width: 150.0,
           child: OutlinedButton(
-            onPressed: onSubmitActivation,
+            onPressed: onPressed,
             child: Text("Submit Activation"),
           ),
         ),

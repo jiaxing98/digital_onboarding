@@ -1,4 +1,4 @@
-import 'package:digital_onboarding/domain/entities/state.dart';
+import 'package:digital_onboarding/domain/entities/country_state.dart';
 
 class AddressInfo {
   final String street1;

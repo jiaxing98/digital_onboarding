@@ -15,20 +15,22 @@ final GetIt repositories = GetIt.asNewInstance();
 
 void injectRepositories() {
   repositories.registerSingleton<AppDataRepository>(
-    AppDataRepositoryImpl(dataSources.get<AppDataDataSource>()),
+    AppDataRepositoryImpl(
+      dataSources.get<AppDataDataSource>(),
+    ),
   );
 
   repositories.registerSingleton<UserRepository>(
     UserRepositoryImpl(
-      dataSources.get<AppDataDataSource>(),
       dataSources.get<UserDataSource>(),
     ),
   );
 
   repositories.registerSingleton<RegisterRepository>(
     RegisterRepositoryImpl(
+      dataSources.get<AppDataDataSource>(),
       dataSources.get<RegisterDataSource>(),
-      repositories.get<UserRepository>(),
+      dataSources.get<UserDataSource>(),
       EkycService(),
     ),
   );

@@ -1,13 +1,13 @@
+import 'package:digital_onboarding/domain/entities/country_state.dart';
 import 'package:digital_onboarding/domain/entities/id_document.dart';
 import 'package:digital_onboarding/domain/entities/service_provider.dart';
-import 'package:digital_onboarding/domain/entities/state.dart';
 
 abstract class AppDataDataSource {
   Future<List<IdDocument>> getIdDocuments();
   Future<Map<String, CountryState>> getStateMap();
   Future<List<CountryState>> getCountryStates();
   Future<Map<String, String>> getCountryMap();
-  Future<Map<String, ServiceProvider>> getServiceProviderMap();
+  Future<List<ServiceProvider>> getServiceProviders();
 }
 
 class AppDataDataSourceImpl extends AppDataDataSource {
@@ -132,52 +132,58 @@ class AppDataDataSourceImpl extends AppDataDataSource {
   }
 
   @override
-  Future<Map<String, ServiceProvider>> getServiceProviderMap() async {
+  Future<List<ServiceProvider>> getServiceProviders() async {
     await Future.delayed(const Duration(seconds: 1));
-    return {
-      'CELCOM': ServiceProvider(
+    return [
+      ServiceProvider(
         code: 'CELCOM',
+        name: 'CELCOM',
         plans: [
-          Plan(id: "CELCOM_POSTPAID", type: PlanType.postpaid),
-          Plan(id: "CELCOM_PREPAID", type: PlanType.prepaid),
+          Plan(id: "CELCOM_POSTPAID", name: "POSTPAID", type: PlanType.postpaid),
+          Plan(id: "CELCOM_PREPAID", name: "PREPAID", type: PlanType.prepaid),
         ],
       ),
-      'MAXIS': ServiceProvider(
+      ServiceProvider(
         code: 'MAXIS',
+        name: 'MAXIS',
         plans: [
-          Plan(id: "MAXIS_POSTPAID", type: PlanType.postpaid),
-          Plan(id: "MAXIS_PREPAID", type: PlanType.prepaid),
+          Plan(id: "MAXIS_POSTPAID", name: "POSTPAID", type: PlanType.postpaid),
+          Plan(id: "MAXIS_PREPAID", name: "PREPAID", type: PlanType.prepaid),
         ],
       ),
-      'DIGI': ServiceProvider(
+      ServiceProvider(
         code: 'DIGI',
+        name: 'DIGI',
         plans: [
-          Plan(id: "DIGI_POSTPAID", type: PlanType.postpaid),
-          Plan(id: "DIGI_PREPAID", type: PlanType.prepaid),
+          Plan(id: "DIGI_POSTPAID", name: "POSTPAID", type: PlanType.postpaid),
+          Plan(id: "DIGI_PREPAID", name: "PREPAID", type: PlanType.prepaid),
         ],
       ),
-      'UMOBILE': ServiceProvider(
+      ServiceProvider(
         code: 'UMOBILE',
+        name: 'UMOBILE',
         plans: [
-          Plan(id: "UMOBILE_POSTPAID", type: PlanType.postpaid),
-          Plan(id: "UMOBILE_PREPAID", type: PlanType.prepaid),
+          Plan(id: "UMOBILE_POSTPAID", name: "POSTPAID", type: PlanType.postpaid),
+          Plan(id: "UMOBILE_PREPAID", name: "PREPAID", type: PlanType.prepaid),
         ],
       ),
-      'UNIFI': ServiceProvider(
+      ServiceProvider(
         code: 'UNIFI',
+        name: 'UNIFI',
         plans: [
-          Plan(id: "UNIFI_POSTPAID", type: PlanType.postpaid),
-          Plan(id: "UNIFI_PREPAID", type: PlanType.prepaid),
+          Plan(id: "UNIFI_POSTPAID", name: "POSTPAID", type: PlanType.postpaid),
+          Plan(id: "UNIFI_PREPAID", name: "PREPAID", type: PlanType.prepaid),
         ],
       ),
-      'YES': ServiceProvider(
+      ServiceProvider(
         code: 'YES',
+        name: 'YES',
         plans: [
-          Plan(id: "YES_POSTPAID", type: PlanType.postpaid),
-          Plan(id: "YES_PREPAID", type: PlanType.prepaid),
+          Plan(id: "YES_POSTPAID", name: "POSTPAID", type: PlanType.postpaid),
+          Plan(id: "YES_PREPAID", name: "PREPAID", type: PlanType.prepaid),
         ],
       ),
-    };
+    ];
   }
 
   @override

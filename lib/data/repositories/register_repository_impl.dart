@@ -1,43 +1,58 @@
 import 'package:digital_onboarding/core/extensions/datetime.dart';
+import 'package:digital_onboarding/core/extensions/nullable_string.dart';
+import 'package:digital_onboarding/data/data_sources/app_data_data_source.dart';
 import 'package:digital_onboarding/data/data_sources/register_data_source.dart';
+import 'package:digital_onboarding/data/data_sources/user_data_source.dart';
 import 'package:digital_onboarding/data/requests/new_activation_request.dart';
+import 'package:digital_onboarding/data/requests/port_in_activation_request.dart';
 import 'package:digital_onboarding/domain/entities/address_info.dart';
 import 'package:digital_onboarding/domain/entities/ekyc_info.dart';
 import 'package:digital_onboarding/domain/entities/id_document.dart';
-import 'package:digital_onboarding/domain/entities/port_in_details.dart';
 import 'package:digital_onboarding/domain/repositories/register_repository.dart';
-import 'package:digital_onboarding/domain/repositories/user_repository.dart';
 import 'package:digital_onboarding/utils/ekyc_service.dart';
 
 class RegisterRepositoryImpl extends RegisterRepository {
+  final AppDataDataSource _appDS;
   final RegisterDataSource _registerDS;
-  final UserRepository _userRepository;
+  final UserDataSource _userDS;
   final EkycService _service;
 
   RegisterRepositoryImpl(
+    this._appDS,
     this._registerDS,
-    this._userRepository,
+    this._userDS,
     this._service,
   );
 
   @override
   Future<EkycInfo> performEkyc() async {
-    final document = await _userRepository.getIdDocument();
-    final ekycInfo = await switch (document.type) {
+    final document = await _userDS.getIdDocument();
+    final rawInfo = await switch (document.type) {
       DocumentType.myKad => _service.performMyKadEkyc(),
       DocumentType.myTentera => _service.performMyTenteraEkyc(),
       DocumentType.passport => _service.performPassportEkyc(),
     };
 
-    return await _userRepository.processedAndSaveEkycInfo(ekycInfo);
+    final ekycInfo = EkycInfo(
+      name: rawInfo.name,
+      identificationNo: rawInfo.identificationNo,
+      gender: _parseGender(rawInfo.gender),
+      birthDate: rawInfo.birthDate,
+      addressInfo: await _parseAddress(rawInfo.fullAddress),
+    );
+
+    await _userDS.saveEkycInfo(ekycInfo);
+    return ekycInfo;
   }
 
   @override
   Future<void> submitNewActivation(AddressInfo addressInfo) async {
-    final userInfo = await _userRepository.getUserInfo();
+    final userInfo = await _userDS.getUserInfo();
+    final packageTag = await _userDS.getScannedPackageTag();
     final request = NewActivationRequest(
       transactionId: userInfo.transactionId,
       registrationType: userInfo.registrationType.name,
+      packageTag: packageTag,
       idDocumentCode: userInfo.idDocument?.code ?? "",
       identificationNo: userInfo.ekycInfo?.identificationNo ?? "",
       gender: userInfo.ekycInfo?.gender.name ?? "",
@@ -52,14 +67,58 @@ class RegisterRepositoryImpl extends RegisterRepository {
   }
 
   @override
-  Future<void> submitPortInActivation(PortInDetails details) {
-    // TODO: implement submitPortInActivation
-    throw UnimplementedError();
+  Future<void> submitPortInActivation(String portInMobileNo, String serviceProviderId) async {
+    final userInfo = await _userDS.getUserInfo();
+    final packageTag = await _userDS.getScannedPackageTag();
+    final request = PortInActivationRequest(
+      transactionId: userInfo.transactionId,
+      registrationType: userInfo.registrationType.name,
+      packageTag: packageTag,
+      idDocumentCode: userInfo.idDocument?.code ?? "",
+      identificationNo: userInfo.ekycInfo?.identificationNo ?? "",
+      gender: userInfo.ekycInfo?.gender.name ?? "",
+      birthDate: userInfo.ekycInfo?.birthDate?.format('yyyy-MM-dd') ?? "",
+      street1: userInfo.ekycInfo?.addressInfo?.street1 ?? "",
+      street2: userInfo.ekycInfo?.addressInfo?.street2 ?? "",
+      postcode: userInfo.ekycInfo?.addressInfo?.postcode ?? "",
+      city: userInfo.ekycInfo?.addressInfo?.city ?? "",
+      stateCode: userInfo.ekycInfo?.addressInfo?.state?.code ?? "",
+      portInMobileNo: portInMobileNo,
+      serviceProviderId: serviceProviderId,
+    );
+
+    await _registerDS.submitPortInActivation(request);
   }
 
   @override
   Future<void> verifySimPackage(String qrCode) async {
     final packageTag = await _registerDS.verifySimPackage(qrCode);
-    await _userRepository.savePackageTagInfo(packageTag);
+    await _userDS.savePackageTagInfo(packageTag);
+  }
+
+  Gender _parseGender(String genderStr) {
+    return switch (genderStr.toLowerCase()) {
+      'm' || 'l' => Gender.male,
+      'f' || 'p' => Gender.female,
+      _ => Gender.none
+    };
+  }
+
+  Future<AddressInfo?> _parseAddress(String? fullAddress) async {
+    if (fullAddress.isNullOrEmpty) return null;
+
+    final address = fullAddress!.split('\n');
+    final stateStr = address[address.length - 1];
+
+    final availableCountryStates = await _appDS.getCountryStates();
+    final matches = availableCountryStates.where((e) => e.keywords.contains(stateStr)).toList();
+
+    return AddressInfo(
+      street1: address[0],
+      street2: address[1],
+      postcode: address[address.length - 2].replaceAll(RegExp(r'\D'), ''),
+      city: address[address.length - 2].replaceAll(RegExp(r'\d+\s'), ''),
+      state: matches.isNotEmpty ? matches.first : null,
+    );
   }
 }

@@ -12,6 +12,8 @@ import 'package:digital_onboarding/presentation/customer_details_page.dart';
 import 'package:digital_onboarding/presentation/customer_details_page_viewmodel.dart';
 import 'package:digital_onboarding/presentation/landing_page.dart';
 import 'package:digital_onboarding/presentation/landing_page_viewmodel.dart';
+import 'package:digital_onboarding/presentation/port_in_details_page.dart';
+import 'package:digital_onboarding/presentation/port_in_details_page_viewmodel.dart';
 import 'package:digital_onboarding/presentation/registration_success_page.dart';
 import 'package:digital_onboarding/presentation/scan_sim_package_page.dart';
 import 'package:digital_onboarding/presentation/scan_sim_package_page_viewmodel.dart';
@@ -79,6 +81,16 @@ final GoRouter router = GoRouter(
       },
     ),
     GoRoute(
+      path: Pages.portInForm,
+      name: Pages.portInForm,
+      builder: (context, state) {
+        return ChangeNotifierProvider(
+          create: (_) => viewModels.get<PortInDetailsPageVM>(),
+          child: PortInDetailsPage(),
+        );
+      },
+    ),
+    GoRoute(
       path: Pages.success,
       name: Pages.success,
       builder: (context, state) {
@@ -112,9 +124,11 @@ final GoRouter router = GoRouter(
 sealed class Pages {
   static const home = '/';
   static const sim = '/sim';
+  static const confirm = '/confirm';
   static const selectId = '/selectId';
   static const guidelines = '/guidelines';
   static const form = '/form';
+  static const portInForm = '/portInForm';
   static const success = '/success';
   static const checkStatus = '/checkStatus';
 

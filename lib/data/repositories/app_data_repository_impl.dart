@@ -1,7 +1,7 @@
 import 'package:digital_onboarding/data/data_sources/app_data_data_source.dart';
+import 'package:digital_onboarding/domain/entities/country_state.dart';
 import 'package:digital_onboarding/domain/entities/id_document.dart';
 import 'package:digital_onboarding/domain/entities/service_provider.dart';
-import 'package:digital_onboarding/domain/entities/state.dart';
 import 'package:digital_onboarding/domain/repositories/app_data_repository.dart';
 
 class AppDataRepositoryImpl extends AppDataRepository {
@@ -25,8 +25,8 @@ class AppDataRepositoryImpl extends AppDataRepository {
   }
 
   @override
-  Future<Map<String, ServiceProvider>> getServiceProviderMap() async {
-    return await _dataSource.getServiceProviderMap();
+  Future<List<ServiceProvider>> getServiceProviders() async {
+    return await _dataSource.getServiceProviders();
   }
 
   @override
