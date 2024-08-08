@@ -5,7 +5,7 @@ class ScanSimPackageUseCase {
 
   ScanSimPackageUseCase(this._repository);
 
-  Future<void> call(String qrCode) async {
-    await _repository.verifySimPackage(qrCode);
+  Future<String> call(String qrCode) async {
+    return await _repository.verifySimPackage(qrCode);
   }
 }

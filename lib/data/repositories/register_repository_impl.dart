@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:digital_onboarding/core/extensions/datetime.dart';
 import 'package:digital_onboarding/core/extensions/nullable_string.dart';
 import 'package:digital_onboarding/data/data_sources/app_data_data_source.dart';
@@ -23,6 +25,11 @@ class RegisterRepositoryImpl extends RegisterRepository {
     this._userDS,
     this._service,
   );
+
+  @override
+  Future<void> confirmMobileNumber(String callerId) async {
+    await _registerDS.confirmMobileNumber(callerId);
+  }
 
   @override
   Future<EkycInfo> performEkyc() async {
@@ -91,9 +98,15 @@ class RegisterRepositoryImpl extends RegisterRepository {
   }
 
   @override
-  Future<void> verifySimPackage(String qrCode) async {
+  Future<String> verifySimPackage(String qrCode) async {
     final packageTag = await _registerDS.verifySimPackage(qrCode);
     await _userDS.savePackageTagInfo(packageTag);
+
+    String callerId = "011 ";
+    for (var i = 0; i < 7; i++) {
+      callerId = callerId + Random().nextInt(10).toString();
+    }
+    return callerId;
   }
 
   Gender _parseGender(String genderStr) {

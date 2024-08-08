@@ -8,6 +8,8 @@ import 'package:digital_onboarding/presentation/capture_id_guidelines_page.dart'
 import 'package:digital_onboarding/presentation/capture_id_guidelines_page_viewmodel.dart';
 import 'package:digital_onboarding/presentation/check_port_in_status_page.dart';
 import 'package:digital_onboarding/presentation/check_port_in_status_page_viewmodel.dart';
+import 'package:digital_onboarding/presentation/confirm_mobile_number_page.dart';
+import 'package:digital_onboarding/presentation/confirm_mobile_number_page_viewmodel.dart';
 import 'package:digital_onboarding/presentation/customer_details_page.dart';
 import 'package:digital_onboarding/presentation/customer_details_page_viewmodel.dart';
 import 'package:digital_onboarding/presentation/landing_page.dart';
@@ -55,6 +57,16 @@ final GoRouter router = GoRouter(
         return Provider(
           create: (_) => viewModels.get<SelectIdentificationPageVM>(),
           child: const SelectIdentificationPage(),
+        );
+      },
+    ),
+    GoRoute(
+      path: Pages.confirm,
+      name: Pages.confirm,
+      builder: (context, state) {
+        return Provider(
+          create: (_) => viewModels.get<ConfirmMobileNumberPageVM>(),
+          child: ConfirmMobileNumberPage(callerId: state.extra as String),
         );
       },
     ),

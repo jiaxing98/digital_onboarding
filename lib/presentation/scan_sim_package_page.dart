@@ -56,9 +56,9 @@ class _ScanSimPackagePageState extends State<ScanSimPackagePage> {
     result.fold((failure) {
       context.loaderOverlay.hide();
       showErrorDialog(context: context, failure: failure);
-    }, (_) {
+    }, (callerId) {
       context.loaderOverlay.hide();
-      context.pushNamed(Pages.selectId);
+      context.pushNamed(Pages.confirm, extra: callerId);
     });
   }
 }

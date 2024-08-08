@@ -4,6 +4,7 @@ import 'package:digital_onboarding/domain/repositories/register_repository.dart'
 import 'package:digital_onboarding/domain/repositories/user_repository.dart';
 import 'package:digital_onboarding/domain/usecases/check_mnp_status_usecase.dart';
 import 'package:digital_onboarding/domain/usecases/confirm_details_usecase.dart';
+import 'package:digital_onboarding/domain/usecases/confirm_mobile_number_usecase.dart';
 import 'package:digital_onboarding/domain/usecases/get_country_states_usecase.dart';
 import 'package:digital_onboarding/domain/usecases/get_id_documents_usecase.dart';
 import 'package:digital_onboarding/domain/usecases/get_registration_type_usecase.dart';
@@ -17,6 +18,7 @@ import 'package:digital_onboarding/domain/usecases/submit_new_activation_usecase
 import 'package:digital_onboarding/domain/usecases/submit_port_in_activation_usecase.dart';
 import 'package:digital_onboarding/presentation/capture_id_guidelines_page_viewmodel.dart';
 import 'package:digital_onboarding/presentation/check_port_in_status_page_viewmodel.dart';
+import 'package:digital_onboarding/presentation/confirm_mobile_number_page_viewmodel.dart';
 import 'package:digital_onboarding/presentation/customer_details_page_viewmodel.dart';
 import 'package:digital_onboarding/presentation/landing_page_viewmodel.dart';
 import 'package:digital_onboarding/presentation/port_in_details_page_viewmodel.dart';
@@ -38,6 +40,14 @@ void injectViewModels() {
   viewModels.registerFactory(
     () => ScanSimPackagePageVM(
       scanSimPackageUseCase: ScanSimPackageUseCase(
+        repositories.get<RegisterRepository>(),
+      ),
+    ),
+  );
+
+  viewModels.registerFactory(
+    () => ConfirmMobileNumberPageVM(
+      confirmMobileNumberUseCase: ConfirmMobileNumberUseCase(
         repositories.get<RegisterRepository>(),
       ),
     ),

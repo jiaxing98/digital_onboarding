@@ -4,6 +4,7 @@ import 'package:uuid/uuid.dart';
 
 abstract class RegisterDataSource {
   Future<String> verifySimPackage(String qrCode);
+  Future<void> confirmMobileNumber(String callerId);
   Future<void> submitNewActivation(NewActivationRequest request);
   Future<void> submitPortInActivation(PortInActivationRequest request);
 }
@@ -27,5 +28,11 @@ class RegisterDataSourceImpl extends RegisterDataSource {
   Future<String> verifySimPackage(String qrCode) async {
     await Future.delayed(const Duration(seconds: 1));
     return const Uuid().v1();
+  }
+
+  @override
+  Future<void> confirmMobileNumber(String callerId) async {
+    await Future.delayed(const Duration(seconds: 1));
+    return;
   }
 }

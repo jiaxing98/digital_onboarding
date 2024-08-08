@@ -10,7 +10,7 @@ class ScanSimPackagePageVM {
     required ScanSimPackageUseCase scanSimPackageUseCase,
   }) : _scanSimPackageUseCase = scanSimPackageUseCase;
 
-  TaskEither<Failure, void> scanSimPackage(String qrCode) {
+  TaskEither<Failure, String> scanSimPackage(String qrCode) {
     return TaskEither.tryCatch(
       () => _scanSimPackageUseCase.call(qrCode),
       (ex, __) => switch (ex) {
