@@ -90,7 +90,7 @@ class UserDataSourceImpl extends UserDataSource {
   Future<void> updateAddressInfo(AddressInfo addressInfo) async {
     await Future.delayed(const Duration(seconds: 1));
     if (userInfo == null) throw const InvalidAppStateException();
-    if (userInfo!.ekycInfo == null) throw const MissingEkycInfoException();
+    if (userInfo!.ekycInfo == null) throw const InvalidAppStateException();
 
     final newInfo = userInfo!.ekycInfo!.copyWith(addressInfo);
     userInfo = userInfo!.copyWith(ekycInfo: newInfo);

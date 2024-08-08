@@ -62,7 +62,6 @@ class _CaptureIdGuidelinesPageState extends State<CaptureIdGuidelinesPage> {
     result.fold((failure) {
       context.loaderOverlay.hide();
       showErrorDialog(context: context, failure: failure);
-      // todo: push to exception page
     }, (ekycInfo) {
       context.loaderOverlay.hide();
       context.pushNamed(Pages.form, extra: ekycInfo);

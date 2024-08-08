@@ -11,7 +11,3 @@ class InvalidAppStateException extends AppException {
 class MissingFieldsException extends AppException {
   const MissingFieldsException([super.message]);
 }
-
-class MissingEkycInfoException extends AppException {
-  const MissingEkycInfoException([super.message]);
-}

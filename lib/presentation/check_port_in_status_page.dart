@@ -2,7 +2,9 @@ import 'package:digital_onboarding/core/constants/layout.dart';
 import 'package:digital_onboarding/presentation/_shared/widgets/dob_app_bar.dart';
 import 'package:digital_onboarding/presentation/_shared/widgets/form/form_field_input.dart';
 import 'package:digital_onboarding/presentation/check_port_in_status_page_viewmodel.dart';
+import 'package:digital_onboarding/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 
@@ -88,8 +90,10 @@ class _CheckPortInStatusPageState extends State<CheckPortInStatusPage> {
     final result = await task.run();
     result.fold((failure) {
       context.loaderOverlay.hide();
-
-      // todo: another page to result
+      context.pushNamed(
+        Pages.activationFailed,
+        extra: failure,
+      );
     }, (_) {
       context.loaderOverlay.hide();
 

@@ -1,5 +1,5 @@
-import 'package:digital_onboarding/domain/entities/ekyc_raw_info.dart';
 import 'package:digital_onboarding/core/exceptions/ekyc_exception.dart';
+import 'package:digital_onboarding/domain/entities/ekyc_raw_info.dart';
 import 'package:digital_onboarding/third_party_sdk/ekyc/ekyc_sdk.dart';
 import 'package:digital_onboarding/third_party_sdk/ekyc/result_mykad.dart';
 import 'package:digital_onboarding/third_party_sdk/ekyc/result_mytentera.dart';
