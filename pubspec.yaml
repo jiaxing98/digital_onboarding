@@ -89,6 +89,10 @@ dependencies:
   # https://pub.dev/packages/responsive_framework
   responsive_framework: ^1.4.0
 
+  # https://pub.dev/packages/mocktail
+  # Mock library for Dart inspired by mockito.
+  mocktail: ^1.0.4
+
 
 dev_dependencies:
   flutter_test:

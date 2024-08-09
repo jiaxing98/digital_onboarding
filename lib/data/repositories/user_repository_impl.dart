@@ -30,11 +30,6 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<void> selectRegistrationType(RegistrationType registrationType) async {
-    await _userDS.saveRegistrationType(registrationType);
-  }
-
-  @override
   Future<void> updateAddressInfo(AddressInfo address) async {
     await _userDS.updateAddressInfo(address);
   }

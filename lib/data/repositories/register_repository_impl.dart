@@ -10,6 +10,7 @@ import 'package:digital_onboarding/data/requests/port_in_activation_request.dart
 import 'package:digital_onboarding/domain/entities/address_info.dart';
 import 'package:digital_onboarding/domain/entities/ekyc_info.dart';
 import 'package:digital_onboarding/domain/entities/id_document.dart';
+import 'package:digital_onboarding/domain/entities/user_info.dart';
 import 'package:digital_onboarding/domain/repositories/register_repository.dart';
 import 'package:digital_onboarding/utils/ekyc_service.dart';
 
@@ -25,6 +26,11 @@ class RegisterRepositoryImpl extends RegisterRepository {
     this._userDS,
     this._service,
   );
+
+  @override
+  Future<void> confirmDetails(AddressInfo addressInfo) async {
+    await _userDS.updateAddressInfo(addressInfo);
+  }
 
   @override
   Future<void> confirmMobileNumber(String callerId) async {
@@ -50,6 +56,11 @@ class RegisterRepositoryImpl extends RegisterRepository {
 
     await _userDS.saveEkycInfo(ekycInfo);
     return ekycInfo;
+  }
+
+  @override
+  Future<void> startRegistration(RegistrationType registrationType) async {
+    await _userDS.saveRegistrationType(registrationType);
   }
 
   @override

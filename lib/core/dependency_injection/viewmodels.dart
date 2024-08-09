@@ -32,7 +32,7 @@ void injectViewModels() {
   viewModels.registerFactory(
     () => LandingPageVM(
       startRegistrationUseCase: StartRegistrationUseCase(
-        repositories.get<UserRepository>(),
+        repositories.get<RegisterRepository>(),
       ),
     ),
   );
